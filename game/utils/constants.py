@@ -25,6 +25,6 @@ SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_
 BULLET = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_1.png"))
 
 BULLET_ENEMY = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_2.png"))
-ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
+ENEMY_IMAGES = [pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png")), pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))]
 
 FONT_STYLE = 'freesansbold.ttf'

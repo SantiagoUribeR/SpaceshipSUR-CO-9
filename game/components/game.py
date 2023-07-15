@@ -1,4 +1,5 @@
 import pygame
+from game.components.enemies.enemy_manager import EnemyManager
 
 from game.components.spaceship import Spaceship
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
@@ -15,10 +16,11 @@ class Game:
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
+        self.enemy_by_level = 2
         self.player = Spaceship()
+        self.enemy = EnemyManager(self.add_enemy)
 
     def run(self):
-        # Game loop: events - update - draw
         self.playing = True
         while self.playing:
             self.events()
@@ -35,12 +37,15 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        print(self.enemy.deleted_enemies)
+        self.enemy.update(self.enemy_by_level)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
+        self.enemy.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
@@ -53,3 +58,8 @@ class Game:
             self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg - image_height))
             self.y_pos_bg = 0
         self.y_pos_bg += self.game_speed
+
+    def add_enemy(self, deleted_enemies):
+        if(deleted_enemies % 10 == 0):
+            self.enemy_by_level += 1
+        
