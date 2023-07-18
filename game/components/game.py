@@ -1,5 +1,6 @@
 import pygame
 from game.components.enemies.enemy_manager import EnemyManager
+from game.components.bullets.bullet_manager import BulletManager
 
 from game.components.spaceship import Spaceship
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
@@ -19,6 +20,7 @@ class Game:
         self.enemy_by_level = 2
         self.player = Spaceship()
         self.enemy = EnemyManager(self.add_enemy)
+        self.bullet_manager = BulletManager()
 
     def run(self):
         self.playing = True
@@ -37,8 +39,8 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        print(self.enemy.deleted_enemies)
-        self.enemy.update(self.enemy_by_level)
+        self.enemy.update(self.enemy_by_level, self.bullet_manager)
+        self.bullet_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -46,6 +48,7 @@ class Game:
         self.draw_background()
         self.player.draw(self.screen)
         self.enemy.draw(self.screen)
+        self.bullet_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
