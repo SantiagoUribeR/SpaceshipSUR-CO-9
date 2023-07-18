@@ -38,7 +38,7 @@ class Game:
 
     def update(self):
         user_input = pygame.key.get_pressed()
-        self.player.update(user_input)
+        self.player.update(user_input, self.bullet_manager)
         self.enemy.update(self.enemy_by_level, self.bullet_manager)
         self.bullet_manager.update(self)
 
