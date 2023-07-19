@@ -17,8 +17,8 @@ class BulletManager:
             if enemy_bullet.rect.colliderect(game.player.rect):
                 self.enemy_bullets.remove(enemy_bullet)
                 game.playing = False
-                pygame.time.delay(1000)
-                break
+                game.deth_count += 1
+
 
         for spaceship_bullet in self.spaceship_bullets:
             spaceship_bullet.update(self.spaceship_bullets)
