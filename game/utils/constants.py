@@ -31,4 +31,4 @@ ENEMY_IMAGES = [pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png")), p
 
 GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, 'Other/GameOver.png'))
 
-FONT_STYLE = 'freesansbold.ttf'
+FONT_STYLE = 'game/assets/Other/space_invaders.ttf'

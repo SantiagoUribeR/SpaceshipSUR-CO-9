@@ -18,9 +18,15 @@ class BulletManager:
                 self.enemy_bullets.remove(enemy_bullet)
                 game.playing = False
                 game.deth_count += 1
-
+                game.max_score = game.score if game.score > game.max_score else game.max_score
 
         for spaceship_bullet in self.spaceship_bullets:
+            for enemy in game.enemy_manager.enemies:
+                if spaceship_bullet.rect.colliderect(enemy.rect):
+                    game.enemy_manager.enemies.remove( enemy)
+                    game.score += 1
+                    game.add_enemy()
+
             spaceship_bullet.update(self.spaceship_bullets)
 
     def draw(self, screen):

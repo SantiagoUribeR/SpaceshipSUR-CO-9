@@ -13,7 +13,8 @@ class Spaceship(Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
-        self.shooting_time = random.randint(30, 50)
+        self.shooting_time = 1000
+        self.last_time_shoot = 0
         
 
     def update(self, user_input, bullet_manager):
@@ -42,8 +43,13 @@ class Spaceship(Sprite):
                 self.rect.y -= 10
 
     def shoot(self, bullet_manager):
-        if  len(bullet_manager.spaceship_bullets) < bullet_manager.enemy_by_level:
-            bullet_manager.add_bullet(self)
+        current_time = pygame.time.get_ticks()
+        
+        if current_time  > self.shooting_time:
+            if  len(bullet_manager.spaceship_bullets) < bullet_manager.enemy_by_level:
+                self.shooting_time = current_time + (500 - bullet_manager.enemy_by_level * 2)
+                self.last_time_shoot = current_time
+                bullet_manager.add_bullet(self)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))

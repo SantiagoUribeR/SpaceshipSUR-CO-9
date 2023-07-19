@@ -24,7 +24,7 @@ class Enemy(Sprite):
         self.shooting_time = random.randint(30, 50)
 
 
-    def update(self, enemies, set_deleted_enemies, bullet_manager):
+    def update(self, enemies, bullet_manager):
         self.rect.y += self.speed_y
         self.shoot(bullet_manager)
         self.move_x = random.randint(30, 100)
@@ -39,7 +39,6 @@ class Enemy(Sprite):
 
         if self.rect.y >= SCREEN_HEIGHT:
             enemies.remove(self)
-            set_deleted_enemies(1)
     
     def update_movement(self):
         self.moving_index += 1
@@ -56,7 +55,7 @@ class Enemy(Sprite):
          current_time = pygame.time.get_ticks()
          if self.shooting_time <= current_time:
             bullet_manager.add_bullet(self)
-            self.shooting_time = current_time +  random.randint(30, 50)
+            self.shooting_time = current_time +  random.randint(3000, 5000)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
