@@ -2,6 +2,7 @@ import pygame
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.bullets.bullet_manager import BulletManager
 from game.components.menu import Menu
+from game.components.power_ups.power_up_magager import PowerUpManager
 
 from game.components.spaceship import Spaceship
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE
@@ -22,10 +23,11 @@ class Game:
         self.player = Spaceship()
         self.enemy_manager = EnemyManager()
         self.bullet_manager = BulletManager()
+        self.power_up_manager = PowerUpManager()
         self.menu = Menu("Press any key to start")
         self.score = 0
         self.max_score = 0
-        self.deth_count = 0
+        self.death_count = 0
 
     def run(self):
         self.running = True
@@ -37,9 +39,7 @@ class Game:
     
     def play(self):
         self.playing = True
-        self.score = 0
-        self.enemy_manager.reset()
-        self.enemy_by_level = 2
+        self.reset()
         while self.playing:
             self.events()
             self.update()
@@ -55,14 +55,17 @@ class Game:
         self.player.update(user_input, self.bullet_manager)
         self.enemy_manager.update(self.enemy_by_level, self.bullet_manager)
         self.bullet_manager.update(self)
+        self.power_up_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
+        self.player.draw_power_up(self.screen)
         self.enemy_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
         self.draw_score()
         pygame.display.update()
         pygame.display.flip()
@@ -78,7 +81,7 @@ class Game:
         self.y_pos_bg += self.game_speed
 
     def add_enemy(self):
-        if(self.score % 1 == 0):
+        if(self.score % 5 == 0):
             self.enemy_by_level += 1
     
     def show_menu(self):
@@ -91,16 +94,22 @@ class Game:
         self.running = False
     
     def draw_score(self):
-        messages = [f"The count of deths is:  {self.deth_count}",
+        messages = [f"The count of deaths is:  {self.death_count}",
             f"Your max score is:  {self.max_score}",
             f"Your score is:  {self.score}",
         ]
 
         font = pygame.font.Font(FONT_STYLE, 15)
         for index, message in enumerate(messages):
-            if index == 2 or self.deth_count > 0:
+            if index == 2 or self.death_count > 0:
                 text = font.render(message, True, (255, 255, 255))
                 text_rect = text.get_rect()
                 text_rect.x = SCREEN_WIDTH - text_rect.width - 20
                 text_rect.y =  30 + (index * 20)
                 self.screen.blit(text, text_rect)
+
+    def reset(self):
+        self.score = 0
+        self.enemy_manager.reset()
+        self.power_up_manager.reset()
+        self.enemy_by_level = 2
