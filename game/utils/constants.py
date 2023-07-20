@@ -19,11 +19,15 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = 'shield'
+MACHINE_GUN_TYPE = 'machine_gun'
 ENEMY_TYPE = 'enemy'
 SPACESHIP_TYPE = 'spaceship'
+HEART_TYPE = 'heart'
 
 SPACESHIP = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
+SPACESHIP_MACHINE_GUN = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_machine_gun.png"))
 SPACESHIP_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship_shield.png"))
+MACHINE_GUN = pygame.image.load(os.path.join(IMG_DIR, "Bullet/machine_gun.png"))
 BULLET = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_1.png"))
 
 BULLET_ENEMY = pygame.image.load(os.path.join(IMG_DIR, "Bullet/bullet_2.png"))

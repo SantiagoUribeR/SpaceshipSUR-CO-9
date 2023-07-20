@@ -2,7 +2,7 @@ import pygame
 import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import SPACESHIP, SCREEN_HEIGHT, SCREEN_WIDTH, SPACESHIP_TYPE, DEFAULT_TYPE
+from game.utils.constants import HEART_TYPE, MACHINE_GUN_TYPE, SPACESHIP, SCREEN_HEIGHT, SCREEN_WIDTH, SPACESHIP_TYPE, SHIELD_TYPE
 
 class Spaceship(Sprite):
     X_POS =  SCREEN_WIDTH // 2 - 30
@@ -15,8 +15,8 @@ class Spaceship(Sprite):
         self.rect.y = self.Y_POS
         self.shooting_time = 1000
         self.last_time_shoot = 0
-        self.power_up_type = DEFAULT_TYPE
-        self.power_up_time_up = 0
+        self.power_up_types = {}
+        self.remaining_lives = 5
         
 
     def update(self, user_input, bullet_manager):
@@ -46,27 +46,34 @@ class Spaceship(Sprite):
 
     def shoot(self, bullet_manager):
         current_time = pygame.time.get_ticks()
-        
-        if current_time  > self.shooting_time:
-            if  len(bullet_manager.spaceship_bullets) < bullet_manager.enemy_by_level:
-                self.shooting_time = current_time + (500 - bullet_manager.enemy_by_level * 2)
-                self.last_time_shoot = current_time
-                bullet_manager.add_bullet(self)
+        if not self.power_up_types.get(MACHINE_GUN_TYPE):
+            if current_time  > self.shooting_time:
+                if  len(bullet_manager.spaceship_bullets) < bullet_manager.enemy_by_level:
+                    self.shooting_time = current_time + (500 - bullet_manager.enemy_by_level * 2)
+                    self.last_time_shoot = current_time
+                    bullet_manager.add_bullet(self)
+        else:
+            bullet_manager.add_bullet(self)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
     
     def on_pick_power_up(self, time_up, type, image):
-        self.image = pygame.transform.scale( image , (60,50))
-        self.power_up_time_up = time_up
-        self.power_up_type = type
+        if not self.power_up_types.get(SHIELD_TYPE):
+            self.image = pygame.transform.scale( image , (60,50))
+        if type == HEART_TYPE:
+            self.remaining_lives += 1
+        else:
+            self.power_up_types[type] = {"power_up_time_up": time_up}
 
     def draw_power_up(self, game):
-        if self.power_up_type != DEFAULT_TYPE:
-            time_left = round((self.power_up_time_up - pygame.time.get_ticks()) / 1000 ,2)
-            if time_left >= 0:
-                pass
-                # game.menu.draw(game.screen, f"{self.power_up_type.capitalize()} is enable for {time_left} seconds", )
-            else:
-                self.power_up_type = DEFAULT_TYPE
-                self.image = pygame.transform.scale( SPACESHIP, (60, 50))
+        if self.power_up_types:
+            messages = []
+            for type in list(self.power_up_types):
+                time_left = round((self.power_up_types[type]["power_up_time_up"] - pygame.time.get_ticks()) / 1000 ,2)
+                if time_left >= 0:
+                    messages.append(f"{type.capitalize()} is enable for  {time_left}  seconds")
+                else:
+                    self.power_up_types.pop(type)
+                    self.image = pygame.transform.scale( SPACESHIP, (60, 50))
+            game.menu.power_up_message(messages, game.screen)

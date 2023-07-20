@@ -16,9 +16,10 @@ class BulletManager:
             enemy_bullet.update(self.enemy_bullets)
             if enemy_bullet.rect.colliderect(game.player.rect):
                 self.enemy_bullets.remove(enemy_bullet)
-                if game.player.power_up_type != SHIELD_TYPE:
+                if not game.player.power_up_types.get(SHIELD_TYPE):
                     game.playing = False
                     game.death_count += 1
+                    game.player.remaining_lives -= 1
                     game.max_score = game.score if game.score > game.max_score else game.max_score
 
         for spaceship_bullet in self.spaceship_bullets:
@@ -43,5 +44,9 @@ class BulletManager:
                 self.enemy_bullets.append(Bullets(spaceship))
         else:
             self.spaceship_bullets.append(Bullets(spaceship))
+    
+    def  reset(self):
+        self.enemy_bullets = []
+        self.spaceship_bullets = []
 
 

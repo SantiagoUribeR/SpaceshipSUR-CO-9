@@ -25,10 +25,17 @@ class Menu:
         screen.blit(self.text, self.text_rect)
         screen.blit(self.icon, self.icon_rect)
         pygame.display.update()
-
     
     def update_message(self, message):
         self.message = message
         self.text = self.font.render(self.message, True, (0, 0, 0))
         self.text_rect = self.text.get_rect()
         self.text_rect.center = (self.HALF_SCREEN_WIDTH, self.HALF_SCREEN_HEIGHT)
+    
+    def power_up_message(self, messages, screen):
+        font = pygame.font.Font(FONT_STYLE, 15)
+        for index, message in enumerate(messages):
+            power_up_message = font.render(message, True, (255, 255, 255))
+            power_up_message_rect = power_up_message.get_rect()
+            power_up_message_rect.center = (self.HALF_SCREEN_WIDTH, SCREEN_HEIGHT - power_up_message_rect.height -20 * index)
+            screen.blit(power_up_message, power_up_message_rect)

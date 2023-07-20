@@ -1,7 +1,7 @@
 import random
 import pygame
 
-from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from game.utils.constants import HEART_TYPE, SCREEN_WIDTH, SCREEN_HEIGHT, MACHINE_GUN_TYPE, SHIELD_TYPE
 from pygame.sprite import Sprite
 
 class PowerUp(Sprite):
@@ -16,10 +16,11 @@ class PowerUp(Sprite):
 
     def update(self, game_speed, power_ups):
         self.rect.y += game_speed
+        if self.type == HEART_TYPE:
+            self.rect.y += 20
         if self.rect.y >= SCREEN_HEIGHT:
             power_ups.remove(self)
         pass
     
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
-        pass
+    def draw(self, game):
+        game.screen.blit(self.image, self.rect)
