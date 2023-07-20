@@ -16,8 +16,8 @@ class PowerUp(Sprite):
 
     def update(self, game_speed, power_ups):
         self.rect.y += game_speed
-        if self.type == HEART_TYPE:
-            self.rect.y += 20
+        # if self.type == HEART_TYPE:
+        #     self.rect.y += 20
         if self.rect.y >= SCREEN_HEIGHT:
             power_ups.remove(self)
         pass

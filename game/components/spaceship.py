@@ -16,7 +16,7 @@ class Spaceship(Sprite):
         self.shooting_time = 1000
         self.last_time_shoot = 0
         self.power_up_types = {}
-        self.remaining_lives = 5
+        self.remaining_lives = 10
         
 
     def update(self, user_input, bullet_manager):

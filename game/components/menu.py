@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import FONT_STYLE, ICON, SCREEN_HEIGHT, SCREEN_WIDTH
+from game.utils.constants import FONT_STYLE, HEART, ICON, SCREEN_HEIGHT, SCREEN_WIDTH
 
 class Menu: 
     HALF_SCREEN_HEIGHT = SCREEN_HEIGHT // 2
@@ -20,10 +20,11 @@ class Menu:
             elif event.type == pygame.KEYDOWN:
                 on_start()
 
-    def draw(self, screen):
-        screen.fill((255, 255, 255))
-        screen.blit(self.text, self.text_rect)
-        screen.blit(self.icon, self.icon_rect)
+    def draw(self, game):
+        game.screen.fill((255, 255, 255))
+        game.screen.blit(self.text, self.text_rect)
+        game.screen.blit(self.icon, self.icon_rect)
+        self.draw_hearts(game)
         pygame.display.update()
     
     def update_message(self, message):
@@ -39,3 +40,15 @@ class Menu:
             power_up_message_rect = power_up_message.get_rect()
             power_up_message_rect.center = (self.HALF_SCREEN_WIDTH, SCREEN_HEIGHT - power_up_message_rect.height -20 * index)
             screen.blit(power_up_message, power_up_message_rect)
+    
+    def draw_hearts(self, game):
+        image = HEART
+        image_rect = image.get_rect()
+        x_pos = self.HALF_SCREEN_WIDTH - (image_rect.width + 5) * (game.player.remaining_lives / 2) 
+        for heart in range(game.player.remaining_lives):
+            image_rect.center = (x_pos + ((image_rect.width + 5) * heart), self.HALF_SCREEN_HEIGHT + (image_rect.width + 10)  )
+            game.screen.blit(image, image_rect)
+        
+
+
+

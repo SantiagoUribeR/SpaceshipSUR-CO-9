@@ -97,7 +97,7 @@ class Game:
             self.enemy_by_level += 1
     
     def show_menu(self):
-        self.menu.draw(self.screen)
+        self.menu.draw(self)
         self.menu.events(self.on_close, self.play)
 
     def on_close(self):
@@ -107,7 +107,6 @@ class Game:
     def draw_score(self):
         messages = [
             f"Your score is:  {self.score}",
-            f"You have {self.player.remaining_lives} lives left",
             f"The count of deaths is:  {self.death_count}",
             f"Your max score is:  {self.max_score}",
         ]
