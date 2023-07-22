@@ -3,4 +3,4 @@ from game.utils.constants import HEART, HEART_TYPE, SPACESHIP
 
 class Heart(PowerUp):
     def __init__(self):
-        super().__init__(HEART, HEART_TYPE, SPACESHIP)
+        super().__init__(HEART, HEART_TYPE)

@@ -1,12 +1,12 @@
 import random
 import pygame
 
-from game.utils.constants import HEART_TYPE, SCREEN_WIDTH, SCREEN_HEIGHT, MACHINE_GUN_TYPE, SHIELD_TYPE
+from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT,  SPACESHIP
 from pygame.sprite import Sprite
 
 class PowerUp(Sprite):
 
-    def __init__(self, image, type, spaceship_image):
+    def __init__(self, image, type, spaceship_image = SPACESHIP):
         self.type = type
         self.image = image
         self.rect = image.get_rect()
